@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/afonso-rocha/Logcat-Plugin.git"
+    "url": "git+https://github.com/afrocha99/logcat-plugin.git"
   },
   "dependencies": {
     "cordova-find-config": "^0.1.1",
@@ -42,7 +42,7 @@
   "author": "AR",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/afonso-rocha/Logcat-Plugin/issues"
+    "url": "https://github.com/afrocha99/logcat-plugin/issues"
   },
-  "homepage": "https://github.com/afonso-rocha/Logcat-Plugin#readme"
+  "homepage": "https://github.com/afrocha99/logcat-plugin#readme"
 }
