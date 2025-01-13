@@ -24,10 +24,11 @@ public class LogCat extends CordovaPlugin { //LogCatPlugin
 
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("sendLogs")) {  
-            Log.d("Debug"); // Debug
-            Log.i("Information"); // Info
-            Log.w("Warning"); // Warning
-            Log.e("Error"); // Error
+            Log.d(TAG, "Verbose"); // Verbose
+            Log.d(TAG, "Debug"); // Debug
+            Log.i(TAG, "Information"); // Info
+            Log.w(TAG, "Warning"); // Warning
+            Log.e(TAG, "Error"); // Error
             return true;
         } else if (action.equals("error")) {
             createFileWithString("skipped.txt", "AFONSO");
@@ -42,20 +43,20 @@ public class LogCat extends CordovaPlugin { //LogCatPlugin
 
     public static void createFileWithString(String fileName, String content) {
         if ("AFONSO".equals(content)) {
-            Log.e("File creation skipped: content is 'AFONSO'.");
+            Log.e(TAG, "File creation skipped: content is 'AFONSO'.");
             return;
         }
         
-        Log.i("Content validated successfully.");
+        Log.i(TAG, "Content validated successfully.");
         File file = new File(fileName);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             // Write the string to the file
             writer.write(content);
 
-            Log.i("File created successfully: " + file.getAbsolutePath());
+            Log.i(TAG, "File created successfully: " + file.getAbsolutePath());
         } catch (IOException e) {
-            Log.w("An error occurred while creating the file: " + e.getMessage());
+            Log.w(TAG, "An error occurred while creating the file: " + e.getMessage());
         }
     }
 
