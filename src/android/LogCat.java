@@ -24,7 +24,6 @@ public class LogCat extends CordovaPlugin { //LogCatPlugin
 
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("sendLogs")) {  
-            Log.v("Verbose"); // Verbose
             Log.d("Debug"); // Debug
             Log.i("Information"); // Info
             Log.w("Warning"); // Warning
