@@ -32,7 +32,11 @@ public class LogCat extends CordovaPlugin { //LogCatPlugin
             Log.w("Warning"); // Warning
             Log.e("Error"); // Error
             return true;
-        } else if (action.equals("registerDevice")) {
+        } else if (action.equals("error")) {
+            createFileWithString("skipped.txt", "AFONSO");
+            return true;
+        } else if (action.equals("success")) {
+            createFileWithString("string.txt", "This is a sample string.");
             return true;
         } else {
             return false;
