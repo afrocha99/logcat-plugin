@@ -1,66 +1,67 @@
 package org.apache.cordova.logcat;
 
-import android.app.ActivityManager;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
+import android.util.Log;
+
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CordovaWebView;
-import org.json.JSONArray;
-import org.json.JSONException;
-import android.os.Environment;
-import android.app.Activity;
-import android.util.Log;
 
-public class LogCat extends CordovaPlugin { //LogCatPlugin
+public class LogCat extends CordovaPlugin {
 
     private static final String TAG = "LogCatPlugin";
 
+    @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (action.equals("sendLogs")) {  
-            Log.v(TAG, "Verbose"); // Verbose
-            Log.d(TAG, "Debug"); // Debug
-            Log.i(TAG, "Information"); // Info
-            Log.w(TAG, "Warning"); // Warning
-            Log.e(TAG, "Error"); // Error
+        if ("sendLogs".equals(action)) {
+            logExample();
+            callbackContext.success("Logs sent.");
             return true;
-        } else if (action.equals("error")) {
-            createFileWithString("skipped.txt", "AFONSO");
+        } else if ("error".equals(action)) {
+            createFileWithString("skipped.txt", "AFONSO", callbackContext);
             return true;
-        } else if (action.equals("success")) {
-            createFileWithString("string.txt", "This is a sample string.");
+        } else if ("success".equals(action)) {
+            createFileWithString("string.txt", "This is a sample string.", callbackContext);
             return true;
         } else {
+            callbackContext.error("Invalid action.");
             return false;
         }
     }
 
-    public void createFileWithString(String fileName, String content) {
+    private void logExample() {
+        Log.v(TAG, "Verbose log");
+        Log.d(TAG, "Debug log");
+        Log.i(TAG, "Information log");
+        Log.w(TAG, "Warning log");
+        Log.e(TAG, "Error log");
+    }
+
+    private void createFileWithString(String fileName, String content, CallbackContext callbackContext) {
         if ("AFONSO".equals(content)) {
             Log.e(TAG, "File creation skipped: content is 'AFONSO'.");
+            callbackContext.error("File creation skipped: content is 'AFONSO'.");
             return;
         }
 
         Log.i(TAG, "Content validated successfully.");
 
-        File file = new File(getFilesDir(), fileName);
-        
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            Log.i(TAG, "Try-catch clause: IN.");
-            // Write the string to the file
-            writer.write(content);
+        Context context = this.cordova.getActivity().getApplicationContext();
+        File file = new File(context.getFilesDir(), fileName);
 
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(content);
             Log.i(TAG, "File created successfully: " + file.getAbsolutePath());
+            callbackContext.success("File created successfully at: " + file.getAbsolutePath());
         } catch (IOException e) {
             Log.w(TAG, "An error occurred while creating the file: " + e.getMessage());
+            callbackContext.error("Error creating file: " + e.getMessage());
         }
     }
-
-
 }
