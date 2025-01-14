@@ -24,7 +24,7 @@ public class LogCat extends CordovaPlugin { //LogCatPlugin
 
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("sendLogs")) {  
-            Log.d(TAG, "Verbose"); // Verbose
+            Log.v(TAG, "Verbose"); // Verbose
             Log.d(TAG, "Debug"); // Debug
             Log.i(TAG, "Information"); // Info
             Log.w(TAG, "Warning"); // Warning
@@ -41,16 +41,18 @@ public class LogCat extends CordovaPlugin { //LogCatPlugin
         }
     }
 
-    public static void createFileWithString(String fileName, String content) {
+    public void createFileWithString(String fileName, String content) {
         if ("AFONSO".equals(content)) {
             Log.e(TAG, "File creation skipped: content is 'AFONSO'.");
             return;
         }
-        
-        Log.i(TAG, "Content validated successfully.");
-        File file = new File(fileName);
 
+        Log.i(TAG, "Content validated successfully.");
+
+        File file = new File(getFilesDir(), fileName);
+        
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            Log.i(TAG, "Try-catch clause: IN.");
             // Write the string to the file
             writer.write(content);
 
@@ -59,5 +61,6 @@ public class LogCat extends CordovaPlugin { //LogCatPlugin
             Log.w(TAG, "An error occurred while creating the file: " + e.getMessage());
         }
     }
+
 
 }
